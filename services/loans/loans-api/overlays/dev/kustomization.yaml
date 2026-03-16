@@ -1,25 +1,18 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: loans
 bases:
-- ../../base
+- "../../base"
+apiVersion: "kustomize.config.k8s.io/v1beta1"
+kind: "Kustomization"
 replicas:
-- name: loans-api
-  count: 3
+- name: "loans-api"
+  count: 2
 patches:
-- target:
-    kind: Deployment
-    name: loans-api
-  patch: |-
-    - op: add
-      path: /spec/template/spec/containers/0/env
-      value:
-        - name: ENVIRONMENT
-          value: "dev"
-- target:
-    kind: ConfigMap
-    name: loans-api-config
-  patch: |-
-    - op: add
-      path: /data/ENVIRONMENT
-      value: "dev"
+- patch: "- op: add\n  path: /spec/template/spec/containers/0/env\n  value:\n    -\
+    \ name: ENVIRONMENT\n      value: \"dev\""
+  target:
+    kind: "Deployment"
+    name: "loans-api"
+- patch: "- op: add\n  path: /data/ENVIRONMENT\n  value: \"dev\""
+  target:
+    kind: "ConfigMap"
+    name: "loans-api-config"
+namespace: "loans"
